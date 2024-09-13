@@ -14,7 +14,6 @@ dist-ssr
 
 #secrets 
 .env
-app.yaml
 
 # Editor directories and files
 .vscode/*
