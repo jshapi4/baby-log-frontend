@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useTable, useFilters, useSortBy } from "react-table";
+import "./LogTable.css";
 
 const LogTable = ({ logs, handleArchiveLog, handleDeleteLog }) => {
   const data = useMemo(() => logs, [logs]);
@@ -8,7 +9,7 @@ const LogTable = ({ logs, handleArchiveLog, handleDeleteLog }) => {
     () => [
       {
         Header: "Log",
-        accessor: "text", // accessor is the "key" in your data
+        accessor: "text",
       },
       {
         Header: "Timestamp",
@@ -19,14 +20,20 @@ const LogTable = ({ logs, handleArchiveLog, handleDeleteLog }) => {
         Header: "Actions",
         id: "actions",
         Cell: ({ row }) => (
-          <>
-            <button onClick={() => handleArchiveLog(row.original._id)}>
+          <div className="btn-group" role="group">
+            <button
+              className="btn btn-outline-secondary btn-sm"
+              onClick={() => handleArchiveLog(row.original._id)}
+            >
               Archive
             </button>
-            <button onClick={() => handleDeleteLog(row.original._id)}>
+            <button
+              className="btn btn-outline-danger btn-sm"
+              onClick={() => handleDeleteLog(row.original._id)}
+            >
               🗑️
             </button>
-          </>
+          </div>
         ),
       },
     ],
@@ -51,23 +58,31 @@ const LogTable = ({ logs, handleArchiveLog, handleDeleteLog }) => {
   );
 
   return (
-    <>
+    <div className="table-responsive">
       <input
         type="text"
+        className="form-control form-control-sm mb-3"
         placeholder="Search logs..."
         onChange={(e) => setFilter("text", e.target.value)}
       />
-      <table {...getTableProps()} style={{ width: "100%", marginTop: "20px" }}>
-        <thead>
+      <table {...getTableProps()} className="table table-striped table-hover">
+        <thead className="table-light">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
               {headerGroup.headers.map((column) => (
                 <th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={column.id}
+                  className="sortable-header"
                 >
                   {column.render("Header")}
-                  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
+                  <span className="sort-indicator">
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? " 🔽"
+                        : " 🔼"
+                      : ""}
+                  </span>
                 </th>
               ))}
             </tr>
@@ -90,7 +105,7 @@ const LogTable = ({ logs, handleArchiveLog, handleDeleteLog }) => {
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

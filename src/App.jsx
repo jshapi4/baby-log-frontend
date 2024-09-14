@@ -66,21 +66,30 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Baby Logger</h1>
+    <div className="container">
+      <h1 className="my-4">Baby Logger</h1>
+
       <form
+        className="mb-4"
         onSubmit={(e) => {
           e.preventDefault();
           handleAddLog();
         }}
       >
-        <input
-          type="text"
-          value={logInput}
-          onChange={(e) => setLogInput(e.target.value)}
-          placeholder="Enter log (e.g., Baby woke up)"
-        />
-        <button type="submit">Add Log</button>
+        <div className="input-group">
+          <input
+            type="text"
+            className="form-control form-control-lg"
+            value={logInput}
+            onChange={(e) => setLogInput(e.target.value)}
+            placeholder="Enter log (e.g., Baby woke up)"
+          />
+          <div className="input-group-append">
+            <button type="submit" className="btn btn-primary btn-lg">
+              Add Log
+            </button>
+          </div>
+        </div>
       </form>
 
       <LogTable
@@ -88,31 +97,6 @@ function App() {
         handleArchiveLog={handleArchiveLog}
         handleDeleteLog={handleDeleteLog}
       />
-
-      {/* <table style={{ width: "100%", marginTop: "20px" }}>
-        <thead>
-          <tr>
-            <th>Log</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs.map((log, index) => (
-            <tr key={index}>
-              <td>{log.text}</td>
-              <td>{new Date(log.timestamp).toLocaleString()}</td>
-              <td>
-                <button onClick={() => handleArchiveLog(log._id)}>
-                  Archive
-                </button>
-              </td>
-              <td>
-                <button onClick={() => handleDeleteLog(log._id)}>🗑️</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </div>
   );
 }
